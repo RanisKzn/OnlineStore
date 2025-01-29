@@ -1,8 +1,14 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using OnlineStore.Data;
 using OnlineStore.Server.Repositories;
+using OnlineStore.Server.Services;
 using OnlineStore.Services;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +25,32 @@ builder.Services.AddControllers().AddNewtonsoftJson(options  =>
         options => options.SerializerSettings.ContractResolver= new DefaultContractResolver());
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+//var tokenSection = builder.Configuration.GetSection("AppSettings:Token");
+//if (tokenSection.Value == null)
+//{
+//    throw new InvalidOperationException("AppSettings:Token is missing in the configuration.");
+//}
 
+//var key = Encoding.ASCII.GetBytes(tokenSection.Value);
+//builder.Services.AddAuthentication(x =>
+//{
+//    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//.AddJwtBearer(x =>
+//{
+//    x.RequireHttpsMetadata = false;
+//    x.SaveToken = true;
+//    x.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuerSigningKey = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(key),
+//        ValidateIssuer = false,
+//        ValidateAudience = false
+//    };
+//});
 
 var app = builder.Build();
 
@@ -35,11 +66,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//});
+
 
 app.MapControllers();
-
 app.MapFallbackToFile("/index.html");
 
 app.Run();

@@ -18,9 +18,9 @@ namespace OnlineStore.Models
         [Required]
         public Guid RoleId { get; set; }
 
-        public Role Role { get; set; }
+        public Role? Role { get; set; }
 
-        public Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
 
     }
 }

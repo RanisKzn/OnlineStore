@@ -15,8 +15,8 @@ namespace OnlineStore.Models
 
         public double ItemPrice { get; set; }
 
-        public Order Order { get; set; }
+        public Order? Order { get; set; }
 
-        public Item Item { get; set; }
+        public Item? Item { get; set; }
     }
 }

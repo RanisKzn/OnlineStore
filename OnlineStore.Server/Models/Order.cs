@@ -22,8 +22,8 @@ namespace OnlineStore.Models
         public Guid StatusId { get; set; }
 
         [ForeignKey("StatusId")]
-        public Status Status { get; set; }
+        public Status? Status { get; set; }
 
-        public Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
     }
 }
