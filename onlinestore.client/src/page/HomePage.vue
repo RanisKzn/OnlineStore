@@ -3,13 +3,13 @@ import CardComp from "@/components/CardComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import { getCustomers } from "../services/api";
 import { defineComponent } from "vue";
-import AddCustomerForm from "@/components/CustomerForm.vue";
+import CustomerForm from "@/components/CustomerForm.vue";
 
 export default defineComponent({
   components: {
     CardComp,
     HeaderComp,
-    AddCustomerForm,
+    CustomerForm,
   },
   data() {
     return {
@@ -18,6 +18,9 @@ export default defineComponent({
       currentPage: 1,
       itemsPerPage: 4,
       showForm: false,
+      showCustomers: true,
+      showOrders: false,
+      showProducts: false,
       mode: "",
     };
   },
@@ -77,17 +80,30 @@ export default defineComponent({
     lastPage() {
       this.currentPage = this.totalPages;
     },
+    ShowCustomers() {
+      this.showCustomers = true;
+    },
+    ShowProducts() {
+      this.showProducts = true;
+    },
+    ShowOrders() {
+      this.showOrders = true;
+    },
   },
 });
 </script>
 
 <template>
-  <AddCustomerForm v-if="showForm" @close="handleClose" :mode="this.mode"></AddCustomerForm>
+  <CustomerForm v-if="showForm" @close="handleClose" :mode="this.mode"></CustomerForm>
   <div class="bg-white w-3/5 m-auto rounded-xl shadow-xl shadow-grey-200 mt-20">
-    <HeaderComp></HeaderComp>
+    <HeaderComp
+      @Customers="ShowCustomers"
+      @Prosucts="ShowProducts"
+      @Order="ShowOrders"
+    ></HeaderComp>
     <div class="p-10">
       <div class="flex justify-between items-center mb-10">
-        <h1 class="text-3xl font-bold">Пользователи</h1>
+        <h1 class="text-3xl font-bold">{{ showCustomers ? "Пользователи" : "Пользователи1" }}</h1>
         <div class="flex items-center gap-4">
           <select
             class="py-2 px-3 border border-gray-200 focus:border-gray-400 rounded-md focus:outline-none"
@@ -111,10 +127,9 @@ export default defineComponent({
       <div class="grid gap-5" v-if="!loading">
         <CardComp
           v-for="customer in paginatedCustomers"
-          :key="customer.id"
-          :name="customer.Name"
-          :code="customer.Code"
-          :address="customer.Address"
+          :key="customer.Id"
+          :customer="customer"
+          @close="handleClose"
         />
       </div>
       <div v-else>Loading...</div>

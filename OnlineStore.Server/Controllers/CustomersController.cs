@@ -50,8 +50,12 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<JsonResult> PutCustomer(Guid id, Customer customer)
+        public async Task<JsonResult> PutCustomer(Guid id, [FromBody]Customer customer)
         {
+            if (customer == null)
+            {
+                return new JsonResult(BadRequest("Invalid customer data"));
+            }
             if (id != customer.Id)
             {
                 return new JsonResult(BadRequest());
