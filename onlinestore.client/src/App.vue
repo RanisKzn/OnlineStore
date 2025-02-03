@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <HomePage> </HomePage>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HomePage from "./page/HomePage.vue";
-
 export default {
   name: "App",
-  components: {
-    HomePage,
+  components: {},
+  computed: {
+    isAuthenticated() {
+      return localStorage.getItem("token"); // Проверяем наличие токена
+    },
   },
 };
 </script>

@@ -31,14 +31,19 @@ namespace OnlineStore.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> PostOrder(Order order)
+        public async Task<JsonResult> PostOrder([FromBody] Order order)
         {
+            var orders = await _genericService.GetAllAsync();
+            if (order != null)
+            {
+                order.OrderNumber  = orders.OrderByDescending(o => o.OrderNumber).FirstOrDefault().OrderNumber + 1;
+            }
             await _genericService.AddAsync(order);
             return new JsonResult(CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order));
         }
 
         [HttpPut("{id}")]
-        public async Task<JsonResult> PutOrder(Guid id, Order order)
+        public async Task<JsonResult> PutOrder(Guid id,[FromBody]Order order)
         {
             if (id != order.Id)
             {

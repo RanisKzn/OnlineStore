@@ -12,7 +12,7 @@ using OnlineStore.Data;
 namespace OnlineStore.Server.Migrations
 {
     [DbContext(typeof(OnlineStoreDbContext))]
-    [Migration("20250127142805_InitialCreate")]
+    [Migration("20250203150051_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -167,17 +167,16 @@ namespace OnlineStore.Server.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("OrderDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("OrderNumber")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("ShipmentDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("ShipmentDate")
+                        .HasColumnType("date");
 
                     b.Property<Guid>("StatusId")
-                        .HasMaxLength(50)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -187,6 +186,24 @@ namespace OnlineStore.Server.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d97d"),
+                            CustomerId = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d99d"),
+                            OrderDate = new DateOnly(2025, 1, 31),
+                            OrderNumber = 1,
+                            StatusId = new Guid("550e8400-e29b-41d4-a716-446655440003")
+                        },
+                        new
+                        {
+                            Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d96d"),
+                            CustomerId = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d98d"),
+                            OrderDate = new DateOnly(2025, 1, 31),
+                            OrderNumber = 2,
+                            StatusId = new Guid("550e8400-e29b-41d4-a716-446655440003")
+                        });
                 });
 
             modelBuilder.Entity("OnlineStore.Models.OrderItem", b =>
@@ -273,7 +290,7 @@ namespace OnlineStore.Server.Migrations
                         new
                         {
                             Id = new Guid("550e8400-e29b-41d4-a716-446655440005"),
-                            Name = "Выаолнен"
+                            Name = "Выполнен"
                         });
                 });
 
@@ -414,8 +431,7 @@ namespace OnlineStore.Server.Migrations
 
             modelBuilder.Entity("OnlineStore.Models.User", b =>
                 {
-                    b.Navigation("Customer")
-                        .IsRequired();
+                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }

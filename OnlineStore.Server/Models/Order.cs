@@ -11,14 +11,13 @@ namespace OnlineStore.Models
         public Guid CustomerId { get; set; }
 
         [Required]
-        public DateTime OrderDate { get; set; }
+        public DateOnly OrderDate { get; set; }
 
-        public DateTime? ShipmentDate { get; set; }
+        public DateOnly? ShipmentDate { get; set; }
 
         public int OrderNumber { get; set; }
 
         [Required]
-        [MaxLength(50)]
         public Guid StatusId { get; set; }
 
         [ForeignKey("StatusId")]

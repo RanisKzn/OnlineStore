@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.Data;
 using OnlineStore.Models;
+using System;
 
 namespace OnlineStore.DataSeeders
 {
@@ -22,8 +23,11 @@ namespace OnlineStore.DataSeeders
             modelBuilder.Entity<User>().HasData(customerUser);
             modelBuilder.Entity<User>().HasData(customerUser2);
 
-            modelBuilder.Entity<Customer>().HasData(new Customer { Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d99d"), Name = "Customer 1", Code = "0001-2021", Address = "Address 1", UserId = customerUser.Id });
-            modelBuilder.Entity<Customer>().HasData(new Customer { Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d98d"), Name = "Customer 2", Code = "0002-2021", Address = "Address 2", UserId = customerUser2.Id });
+            var customer1 = new Customer { Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d99d"), Name = "Customer 1", Code = "0001-2021", Address = "Address 1", UserId = customerUser.Id };
+            var customer2 = new Customer { Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d98d"), Name = "Customer 2", Code = "0002-2021", Address = "Address 2", UserId = customerUser2.Id };
+
+            modelBuilder.Entity<Customer>().HasData(customer1);
+            modelBuilder.Entity<Customer>().HasData(customer2);
 
             var electronicCategory = new Category { Id = new Guid("550e8400-e29b-41d4-a716-446655440000"), Name = "Электроника" };
             var furnitureCategory = new Category { Id = new Guid("550e8400-e29b-41d4-a716-446655440001"), Name = "Фурнитруа" };
@@ -38,11 +42,15 @@ namespace OnlineStore.DataSeeders
 
             var newStatus = new Status { Id = new Guid("550e8400-e29b-41d4-a716-446655440003"), Name = "Новый" };
             var inProgressStatus = new Status { Id = new Guid("550e8400-e29b-41d4-a716-446655440004"), Name = "Выполняется" };
-            var completedStatus = new Status { Id = new Guid("550e8400-e29b-41d4-a716-446655440005"), Name = "Выаолнен" };
+            var completedStatus = new Status { Id = new Guid("550e8400-e29b-41d4-a716-446655440005"), Name = "Выполнен" };
 
             modelBuilder.Entity<Status>().HasData(newStatus);
             modelBuilder.Entity<Status>().HasData(inProgressStatus);
             modelBuilder.Entity<Status>().HasData(completedStatus);
+
+
+            modelBuilder.Entity<Order>().HasData(new Order { Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d97d"), CustomerId = customer1.Id, OrderDate = new DateOnly(2025, 1, 31), OrderNumber = 1, StatusId = newStatus.Id });
+            modelBuilder.Entity<Order>().HasData(new Order { Id = new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d96d"), CustomerId = customer2.Id, OrderDate = new DateOnly(2025, 1, 31), OrderNumber = 2, StatusId = newStatus.Id });
 
             return modelBuilder;
         }

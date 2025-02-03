@@ -1,7 +1,7 @@
 <script>
 import CustomerForm from "./CustomerForm.vue";
 import { getUser } from "../services/api";
-import DeleteModal from "./DeleteModal.vue";
+import DeleteModal from "./CustomerDeleteModal.vue";
 export default {
   components: { CustomerForm, DeleteModal },
   name: "CardComp",

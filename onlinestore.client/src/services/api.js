@@ -200,3 +200,8 @@ export const deleteUser = async (id) => {
   const response = await axios.delete(API_URL + "users/" + id);
   return response.data;
 };
+
+export const loginUser = async (user) => {
+  const response = await axios.post(API_URL + "Auth/login/", user);
+  return response.data;
+};

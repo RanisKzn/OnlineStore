@@ -118,10 +118,10 @@ namespace OnlineStore.Server.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ShipmentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    OrderDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ShipmentDate = table.Column<DateOnly>(type: "date", nullable: true),
                     OrderNumber = table.Column<int>(type: "integer", nullable: false),
-                    StatusId = table.Column<Guid>(type: "uuid", maxLength: 50, nullable: false)
+                    StatusId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,7 +193,7 @@ namespace OnlineStore.Server.Migrations
                 {
                     { new Guid("550e8400-e29b-41d4-a716-446655440003"), "Новый" },
                     { new Guid("550e8400-e29b-41d4-a716-446655440004"), "Выполняется" },
-                    { new Guid("550e8400-e29b-41d4-a716-446655440005"), "Выаолнен" }
+                    { new Guid("550e8400-e29b-41d4-a716-446655440005"), "Выполнен" }
                 });
 
             migrationBuilder.InsertData(
@@ -222,6 +222,15 @@ namespace OnlineStore.Server.Migrations
                 {
                     { new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d98d"), "Address 2", "0002-2021", null, "Customer 2", new Guid("afa77327-08a9-40ca-9ab3-39e0ff7ab48d") },
                     { new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d99d"), "Address 1", "0001-2021", null, "Customer 1", new Guid("afa77327-08a9-40ca-9ab3-39e0ff7ab47d") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "CustomerId", "OrderDate", "OrderNumber", "ShipmentDate", "StatusId" },
+                values: new object[,]
+                {
+                    { new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d96d"), new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d98d"), new DateOnly(2025, 1, 31), 2, null, new Guid("550e8400-e29b-41d4-a716-446655440003") },
+                    { new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d97d"), new Guid("0da4f0d6-f312-4f0f-9b40-eaff18d8d99d"), new DateOnly(2025, 1, 31), 1, null, new Guid("550e8400-e29b-41d4-a716-446655440003") }
                 });
 
             migrationBuilder.CreateIndex(

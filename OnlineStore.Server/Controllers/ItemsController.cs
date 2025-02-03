@@ -31,7 +31,7 @@ namespace OnlineStore.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> PostItem(Item item)
+        public async Task<JsonResult> PostItem([FromBody] Item item)
         {
             await _genericService.AddAsync(item);
             return new JsonResult(CreatedAtAction(nameof(GetItem), new { id = item.Id }, item));

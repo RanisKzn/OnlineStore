@@ -1,4 +1,5 @@
-﻿using OnlineStore.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineStore.Data;
 using OnlineStore.Models;
 
 namespace OnlineStore.Server.Repositories
@@ -14,7 +15,7 @@ namespace OnlineStore.Server.Repositories
 
         public async Task<User> GetByUsernameAsync(string username)
         {
-            return await _context.Users.FindAsync(username);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
     }
 }
